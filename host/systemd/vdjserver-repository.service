@@ -1,0 +1,15 @@
+[Unit]
+Description=VDJServer Repository Services
+Documentation=https://bitbucket.org/vdjserver/vdjserver-repository
+After=docker.service
+Requires=docker.service
+
+[Service]
+Restart=always
+ExecStartPre=/usr/bin/docker-compose -f /var/www/docker/vdjserver-web/docker-compose/run/docker-compose.yml -f /var/www/docker/vdjserver-web/docker-compose/run/docker-compose.prod-override.yml stop
+ExecStartPre=/usr/bin/docker-compose -f /var/www/docker/vdjserver-web/docker-compose/run/docker-compose.yml -f /var/www/docker/vdjserver-web/docker-compose/run/docker-compose.prod-override.yml rm --force
+ExecStart=/usr/bin/docker-compose -f /var/www/docker/vdjserver-web/docker-compose/run/docker-compose.yml -f /var/www/docker/vdjserver-web/docker-compose/run/docker-compose.prod-override.yml up
+ExecStop=/usr/bin/docker-compose -f /var/www/docker/vdjserver-web/docker-compose/run/docker-compose.yml -f /var/www/docker/vdjserver-web/docker-compose/run/docker-compose.prod-override.yml stop
+
+[Install]
+WantedBy=multi-user.target

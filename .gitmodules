@@ -1,0 +1,3 @@
+[submodule "repository-mongodb"]
+	path = repository-mongodb
+	url = https://github.com/sfu-ireceptor/repository-mongodb.git

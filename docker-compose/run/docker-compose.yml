@@ -1,0 +1,17 @@
+# VDJServer Docker Orchestration
+
+version: '2'
+
+services:
+    vdjr-mongo:
+        build: ./../../repository-mongodb
+        container_name: vdjr-mongo
+        expose:
+            - "27017"
+        image: ireceptor/repository-mongo
+        networks:
+            - default
+
+networks:
+    default:
+        driver: bridge
