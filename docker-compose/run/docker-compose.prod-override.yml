@@ -3,18 +3,10 @@
 version: '2'
 
 services:
-    vdj-nginx:
-        logging:
-            driver: "syslog"
+    vdjr-mongo:
+#        logging:
+#            driver: "syslog"
 
-    vdj-api:
-        logging:
-            driver: "syslog"
-
-    vdj-backbone:
-        logging:
-            driver: "syslog"
-
-    vdj-doc:
-        logging:
-            driver: "syslog"
+    vdjr-ireceptor-api:
+#        logging:
+#            driver: "syslog"
