@@ -26,7 +26,52 @@ All configuration procedures are the same for dockerized and non-dockerized vers
 
 **Configuring repository-mongodb**
 
+The default docker-compose setup starts mongo with authentication on,
+and no users exists in the default image. To setup the database, need
+to decide:
+
+* Where mongo will store its files on host disk. (e.g. /disk/mongodb)
+
+* Name of database in mongo where collections will be stored (e.g. v2public)
+
+* Name and password for mongo service account. This account will have
+  admin privileges for managing mongo.
+
+* Name and password for guest account. This account will only have
+  read access on the database for performing queries.
+
+Make sure not to accidently commit the dbsetup file with usernames and
+passwords into the git repository.
+
+```
+# Modify dbsetup.js with appropriate settings
+cd repository-mongodb
+cp dbsetup.defaults dbsetup.js
+emacs dbsetup.js
+
+# Start up temporary mongo service, note mapping of mongo data directory and dbsetup
+docker run -v /disk/mongodb:/data/db -v $PWD:/dbsetup --name vdjr-mongo ireceptor/repository-mongo
+
+# Run setup script
+docker exec -it vdjr-mongo mongo admin /dbsetup/dbsetup.js
+
+# Stop mongo and get rid of name
+docker stop vdjr-mongo
+docker rm vdjr-mongo
+
+# Edit docker-compose.yml and put in mapping of mongo data directory
+```
+
 **Configuring service-js-mongodb**
+
+There is one configuration file that needs to be set up to run the
+API. It can be copied from its default template.
+
+```
+cd service-js-mongodb
+cp .env.defaults .env
+emacs .env
+```
 
 **Configuring systemd**
 

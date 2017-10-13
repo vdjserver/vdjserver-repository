@@ -13,10 +13,12 @@ services:
             - /icat/mongodb:/data/db
         networks:
             - default
+        command: mongod --auth
 
     vdjr-ireceptor-api:
         build: ./../../service-js-mongodb
         container_name: vdjr-ireceptor-api
+        env_file: ./../../service-js-mongodb/.env
         ports:
             - "8080:8080"
         image: ireceptor/service-js-mongodb
