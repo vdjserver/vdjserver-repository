@@ -109,16 +109,16 @@ It can be accessed as follows:
 ```
 
 In most cases, a simple restart command is sufficient to bring up
-Vdjserver-Repository. The restart command will attempt to stop all
+VDJServer-Repository. The restart command will attempt to stop all
 running docker-compose instances, and it is generally
 successful. However, if it encounters any problems then you can just
 stop instances manually and try it again:
 
 ```
 [myuser@vdj vdjserver-web]$ sudo docker ps
-CONTAINER ID        IMAGE                        COMMAND                CREATED             STATUS              PORTS                                      NAMES
-fdc7c3119366        vdjserverweb_nginx:latest    "/root/nginx-config-   32 minutes ago      Up 32 minutes       0.0.0.0:80->80/tcp, 0.0.0.0:443->443/tcp   vdjserverweb_nginx_1
-adfecbce3e55        vdjserverweb_vdjapi:latest   "/bin/sh -c '/usr/bi   32 minutes ago      Up 32 minutes       8443/tcp                                   vdjserverweb_vdjapi_1
+CONTAINER ID        IMAGE                          COMMAND                  CREATED             STATUS              PORTS                    NAMES
+2cd9a811064d        ireceptor/repository-mongo     "docker-entrypoint..."   4 weeks ago         Up 4 weeks          27017/tcp                vdjr-mongo
+7e4163c4418c        ireceptor/service-js-mongodb   "node --harmony /s..."   4 weeks ago         Up 4 weeks          0.0.0.0:8080->8080/tcp   vdjr-ireceptor-api
 
 [myuser@vdj vdjserver-web]$ sudo docker-compose down vdjserver-repository
 ```
@@ -155,6 +155,34 @@ docker-compose -f docker-compose.yml -f docker-compose.prod-override.yml build
 docker-compose -f docker-compose.yml -f docker-compose.prod-override.yml up
 ```
 
+##Accessing the Repository
+
+For general users, the API is likely accessed with a GUI that hides
+the technical details of communicating with the REST API. However, it
+is useful to contact manually the API using the `curl` command to
+verify that the service is operational.
+
+** iReceptor API **
+
+The top level entrypoint for the API will return a simple success status heartbeat.
+
+```
+$ curl 'https://vdj-staging.tacc.utexas.edu/ireceptor/v2'
+{"result":"success"}
+```
+
+The info entrypoint will return version and other info about the service.
+
+```
+$ curl 'https://vdj-staging.tacc.utexas.edu/ireceptor/v2/info'
+{"name":"vdjserver-ireceptor-node","description":"VDJServer API for iReceptor","version":"0.1.0"}
+```
+
+Neither of those entrypoints access the database, and this command will query both the study metadata and sequences data, returning a JSON data for both.
+
+```
+curl -X POST --data-urlencode "ir_project_sample_id=8485700680582295065-242ac11c-0001-012" 'https://vdj-staging.tacc.utexas.edu/ireceptor/v2/sequences_summary'
+```
 
 ##Development Guidelines
 
