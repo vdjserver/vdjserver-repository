@@ -25,6 +25,16 @@ services:
         networks:
             - default
 
+    vdjr-airr-api:
+        build: ./../../api-js-mongodb
+        container_name: vdjr-airr-api
+        env_file: ./../../api-js-mongodb/.env
+        ports:
+            - "8090:8090"
+        image: vdjserver/api-js-mongodb
+        networks:
+            - default
+
 networks:
     default:
         driver: bridge
