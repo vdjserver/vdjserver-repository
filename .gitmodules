@@ -4,3 +4,6 @@
 [submodule "api-js-mongodb"]
 	path = api-js-mongodb
 	url = https://bitbucket.org/vdjserver/api-js-mongodb.git
+[submodule "vdjserver-mongodb"]
+	path = vdjserver-mongodb
+	url = https://bitbucket.org/vdjserver/vdjserver-mongodb.git
