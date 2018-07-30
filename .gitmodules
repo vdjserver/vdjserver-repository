@@ -1,6 +1,3 @@
-[submodule "service-js-mongodb"]
-	path = service-js-mongodb
-	url = https://github.com/sfu-ireceptor/service-js-mongodb.git
 [submodule "api-js-mongodb"]
 	path = api-js-mongodb
 	url = https://bitbucket.org/vdjserver/api-js-mongodb.git
