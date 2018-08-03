@@ -79,7 +79,7 @@ on your host machine in order to have the infrastructure automatically
 restart when the host machine reboots. Copy the appropriate template.
 
 ```
-sudo cp host/systemd/vdjserver-repository.airr.service /etc/systemd/systems/vdjserver-repository.service
+sudo cp host/systemd/vdjserver-repository.airr.service /etc/systemd/system/vdjserver-repository.service
 
 sudo systemctl daemon-reload
 
@@ -213,8 +213,8 @@ $ git clone git@bitbucket.org:vdjserver/vdjserver-repository.git
 
 cd vdjserver-repository
 
-- Clone submodules
-$ git submodule update --init
+- Clone submodules (recursive as some submodules have their own submodules)
+$ git submodule update --init --recursive
 $ git submodule foreach git checkout master
 $ git submodule foreach git pull
 
