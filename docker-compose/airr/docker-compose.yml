@@ -3,25 +3,13 @@
 version: '2'
 
 services:
-    vdjr-mongo:
-        build: ./../../vdjserver-mongodb
-        container_name: vdjr-mongo
-        expose:
-            - "27017"
-        image: vdjserver/vdjserver-mongo
-        volumes:
-            - /vdjZ/mongodb:/data/db
-        networks:
-            - default
-        command: mongod --auth
-
-    vdjr-airr-api:
-        build: ./../../api-js-mongodb
-        container_name: vdjr-airr-api
-        env_file: ./../../api-js-mongodb/.env
+    vdjr-airr-tapis:
+        build: ./../../api-js-tapis
+        container_name: vdjr-airr-tapis
+        env_file: ./../../api-js-tapis/.env
         ports:
-            - "8080:8080"
-        image: vdjserver/api-js-mongodb
+            - "9090:9090"
+        image: vdjserver/api-js-tapis
         networks:
             - default
 
