@@ -8,7 +8,7 @@ services:
         container_name: vdjr-airr-tapis
         env_file: ./../../api-js-tapis/.env
         ports:
-            - "9090:9090"
+            - "8080:8080"
         image: vdjserver/api-js-tapis
         networks:
             - default
