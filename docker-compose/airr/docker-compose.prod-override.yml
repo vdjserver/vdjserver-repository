@@ -1,12 +1,3 @@
 # VDJServer Docker Orchestration
 
 version: '2'
-
-services:
-    vdjr-mongo:
-#        logging:
-#            driver: "syslog"
-
-    vdjr-airr-api:
-#        logging:
-#            driver: "syslog"
