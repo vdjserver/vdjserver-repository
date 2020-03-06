@@ -10,7 +10,7 @@ services:
             - "27017"
         image: ireceptor/repository-mongo
         volumes:
-            - /icat/mongodb:/data/db
+            - /vdjZ/repository/ireceptor/rep02/mongodb:/data/db
         networks:
             - default
         command: mongod --auth
