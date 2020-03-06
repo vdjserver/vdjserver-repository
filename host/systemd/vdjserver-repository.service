@@ -6,10 +6,9 @@ Requires=docker.service
 
 [Service]
 Restart=always
-ExecStartPre=/usr/local/bin/docker-compose -f /icat/vdj/vdjserver/vdjserver-repository/docker-compose/run/docker-compose.yml -f /icat/vdj/vdjserver/vdjserver-repository/docker-compose/run/docker-compose.prod-override.yml stop
-ExecStartPre=/usr/local/bin/docker-compose -f /icat/vdj/vdjserver/vdjserver-repository/docker-compose/run/docker-compose.yml -f /icat/vdj/vdjserver/vdjserver-repository/docker-compose/run/docker-compose.prod-override.yml rm --force
-ExecStart=/usr/local/bin/docker-compose -f /icat/vdj/vdjserver/vdjserver-repository/docker-compose/run/docker-compose.yml -f /icat/vdj/vdjserver/vdjserver-repository/docker-compose/run/docker-compose.prod-override.yml up
-ExecStop=/usr/local/bin/docker-compose -f /icat/vdj/vdjserver/vdjserver-repository/docker-compose/run/docker-compose.yml -f /icat/vdj/vdjserver/vdjserver-repository/docker-compose/run/docker-compose.prod-override.yml down
+ExecStartPre=/usr/local/bin/docker-compose -f /var/www/docker/vdjserver/vdjserver-repository/docker-compose/run/docker-compose.yml stop
+ExecStart=/usr/local/bin/docker-compose -f /var/www/docker/vdjserver/vdjserver-repository/docker-compose/run/docker-compose.yml up
+ExecStop=/usr/local/bin/docker-compose -f /var/www/docker/vdjserver/vdjserver-repository/docker-compose/run/docker-compose.yml down
 
 [Install]
 WantedBy=multi-user.target
