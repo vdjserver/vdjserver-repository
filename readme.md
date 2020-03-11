@@ -7,24 +7,23 @@ data repository.
 
 ##Deployments
 
- * Development: TBD
- * Production: https://vdjserver.org -> bowie.corral.tacc.utexas.edu
+ * Development: https://vdjserver.org -> vdj-rep-01.tacc.utexas.edu
+ * Production: TBD
 
 The current deployment configuration has the API and database on a single node.
 
 ##Components
 
-VDJServer-Repository is currently composed of 3 separate components:
+VDJServer-Repository is currently composed of 2 separate components:
 
- * [repository-mongodb](https://github.com/sfu-ireceptor/repository-mongodb): The Mongo database.
- * [service-js-mongodb](https://github.com/sfu-ireceptor/service-js-mongodb): iReceptor API service with JavaScript implementation for MongoDB repository.
- * [api-js-mongodb](https://github.com/airr-community/api-js-mongodb): AIRR Common Repository API service with JavaScript implementation for MongoDB repository.
+ * [vdjserver-mongodb](https://bitbucket.org/vdjserver/vdjserver-mongodb.git): The Mongo database.
+ * [api-js-mongodb](https://bitbucket.org/vdjserver/api-js-mongodb.git): VDJServer implementation of the AIRR Common Repository API service with JavaScript implementation for MongoDB repository.
 
 ##Configuration Procedure
 
 All configuration procedures are the same for dockerized and non-dockerized versions of these apps.
 
-**Configuring repository-mongodb**
+**Configuring vdjserver-mongodb**
 
 The default docker-compose setup starts mongo with authentication on,
 and no users exists in the default image. To setup the database, need
@@ -32,7 +31,7 @@ to decide:
 
 * Where mongo will store its files on host disk. (e.g. /disk/mongodb)
 
-* Name of database in mongo where collections will be stored (e.g. v2public)
+* Name of database in mongo where collections will be stored (e.g. airr)
 
 * Name and password for mongo service account. This account will have
   admin privileges for managing mongo.
@@ -45,12 +44,12 @@ passwords into the git repository.
 
 ```
 # Modify dbsetup.js with appropriate settings
-cd repository-mongodb
+cd vdjserver-mongodb
 cp dbsetup.defaults dbsetup.js
 emacs dbsetup.js
 
 # Start up temporary mongo service, note mapping of mongo data directory and dbsetup
-docker run -v /disk/mongodb:/data/db -v $PWD:/dbsetup --name vdjr-mongo ireceptor/repository-mongo
+docker run -v /vdjZ/mongodb:/data/db -v $PWD:/dbsetup --name vdjr-mongo vdjserver/vdjserver-mongo
 
 # Run setup script
 docker exec -it vdjr-mongo mongo admin /dbsetup/dbsetup.js
@@ -62,13 +61,13 @@ docker rm vdjr-mongo
 # Edit docker-compose.yml and put in mapping of mongo data directory
 ```
 
-**Configuring service-js-mongodb**
+**Configuring api-js-mongodb**
 
 There is one configuration file that needs to be set up to run the
 API. It can be copied from its default template.
 
 ```
-cd service-js-mongodb
+cd api-js-mongodb
 cp .env.defaults .env
 emacs .env
 ```
@@ -77,10 +76,10 @@ emacs .env
 
 You will need to set up the VDJServer-Repository systemd service file
 on your host machine in order to have the infrastructure automatically
-restart when the host machine reboots.
+restart when the host machine reboots. Copy the appropriate template.
 
 ```
-sudo cp host/systemd/vdjserver-repository.service /etc/systemd/systems/vdjserver-repository.service
+sudo cp host/systemd/vdjserver-repository.airr.service /etc/systemd/system/vdjserver-repository.service
 
 sudo systemctl daemon-reload
 
@@ -214,8 +213,8 @@ $ git clone git@bitbucket.org:vdjserver/vdjserver-repository.git
 
 cd vdjserver-repository
 
-- Clone submodules
-$ git submodule update --init
+- Clone submodules (recursive as some submodules have their own submodules)
+$ git submodule update --init --recursive
 $ git submodule foreach git checkout master
 $ git submodule foreach git pull
 

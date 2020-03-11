@@ -1,0 +1,18 @@
+# VDJServer Docker Orchestration
+
+version: '2'
+
+services:
+    vdjr-airr-tapis:
+        build: ./../../api-js-tapis
+        container_name: vdjr-airr-tapis
+        env_file: ./../../api-js-tapis/.env
+        ports:
+            - "8080:8080"
+        image: vdjserver/api-js-tapis
+        networks:
+            - default
+
+networks:
+    default:
+        driver: bridge
