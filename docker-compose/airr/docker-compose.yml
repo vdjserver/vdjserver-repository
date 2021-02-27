@@ -8,8 +8,8 @@ services:
         container_name: vdjr-airr-tapis
         env_file: ./../../.env
         ports:
-            - "8080:8080"
-            - "8081:8081"
+            - "8020:8020"
+            - "8021:8021"
         image: vdjserver/api-js-tapis
         networks:
             - default
@@ -21,7 +21,7 @@ services:
 #        container_name: vdjr-stats-tapis
 #        env_file: ./../../.env
 #        ports:
-#            - "8082:8082"
+#            - "8025:8025"
 #        image: vdjserver/stats-api-js-tapis
 #        networks:
 #            - default
