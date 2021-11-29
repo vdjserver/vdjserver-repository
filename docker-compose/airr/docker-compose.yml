@@ -6,12 +6,26 @@ services:
     vdjr-airr-tapis:
         build: ./../../api-js-tapis
         container_name: vdjr-airr-tapis
-        env_file: ./../../api-js-tapis/.env
+        env_file: ./../../.env
         ports:
             - "8020:8020"
+            - "8021:8021"
         image: vdjserver/api-js-tapis
         networks:
             - default
+        volumes:
+            - ./../../api-js-tapis/redis:/api-js-tapis/redis
+            - /vdjZ:/vdjZ
+
+#    vdjr-stats-tapis:
+#        build: ./../../stats-api-js-tapis
+#        container_name: vdjr-stats-tapis
+#        env_file: ./../../.env
+#        ports:
+#            - "8025:8025"
+#        image: vdjserver/stats-api-js-tapis
+#        networks:
+#            - default
 
 networks:
     default:
