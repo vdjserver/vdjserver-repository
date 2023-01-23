@@ -31,7 +31,7 @@ pico .env
 
 ## Deployment Procedure
 
-### Configuring systemd
+**Configuring systemd**
 
 You will need to set up the VDJServer Repository systemd service file
 on your host machine in order to have the infrastructure automatically
@@ -118,8 +118,7 @@ docker-compose -f docker-compose.yml -f docker-compose.prod-override.yml up
 The test suites for each component can be run as during development, just change the
 URL host to the appropriate server.
 
-Accessing the Repository
------------
+## Accessing the Repository
 
 For general users, the API is likely accessed with a GUI that hides
 the technical details of communicating with the web API. However, it
@@ -228,8 +227,7 @@ $ curl 'http://localhost:8025/irplus/v1/stats'
 ```
 
 
-Development Guidelines
------------
+## Development Guidelines
 
 **Code Style**
 
