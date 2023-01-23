@@ -33,6 +33,9 @@ cp .env.defaults .env
 pico .env
 ```
 
+Deployment Procedure
+-----------
+
 **Configuring systemd**
 
 You will need to set up the VDJServer Repository systemd service file
@@ -48,9 +51,6 @@ sudo systemctl enable docker
 
 sudo systemctl enable vdjserver-repository
 ```
-
-Deployment Procedure
------------
 
 **SSL**
 
