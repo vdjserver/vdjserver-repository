@@ -55,7 +55,7 @@ sudo systemctl enable vdjserver-repository
 **SSL**
 
 VDJServer Repository does not handle SSL certificates directly, and is
-currently configured to run HTTP internally on port 8080. It must be
+currently configured to run HTTP internally on the port specified in the .env file. It must be
 deployed behind a reverse proxy in order to allow SSL connections.
 
 **Dockerized instances (vdj-dev, vdj-staging, production)**
@@ -293,6 +293,6 @@ To bring down the service:
 
 ```
 [myuser@vdj vdjserver-repository]$ cd docker-compose/airr
-[myuser@vdj airr]$ docker compose up
+[myuser@vdj airr]$ docker compose down
 ```
 
