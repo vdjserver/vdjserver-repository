@@ -15,7 +15,7 @@ services:
             - default
         volumes:
             - ./../../api-js-tapis/redis:/api-js-tapis/redis
-#            - /vdjZ:/vdjZ
+            - /vdjZ:/vdjZ
 
     vdjr-stats-tapis:
         build: ./../../stats-api-js-tapis
