@@ -7,8 +7,9 @@ data repository. It is the backend services for the VDJServer Community Data Por
 
 ##Deployments
 
- * Development: https://vdj-staging.tacc.utexas.edu -> vdj-rep-02.tacc.utexas.edu
  * Production: https://vdjserver.org -> vdj-rep-01.tacc.utexas.edu
+ * Staging: https://vdj-staging.tacc.utexas.edu -> vdj-rep-02.tacc.utexas.edu
+ * Development: http://localhost
 
 ##Components
 
@@ -31,7 +32,7 @@ pico .env
 
 **Configuring systemd**
 
-You will need to set up the VDJServer-Repository systemd service file
+You will need to set up the VDJServer Repository systemd service file
 on your host machine in order to have the infrastructure automatically
 restart when the host machine reboots. Copy the appropriate template.
 
@@ -49,7 +50,7 @@ sudo systemctl enable vdjserver-repository
 
 ###SSL
 
-VDJServer-Repository does not handle SSL certificates directly, and is
+VDJServer Repository does not handle SSL certificates directly, and is
 currently configured to run HTTP internally on port 8080. It must be
 deployed behind a reverse proxy in order to allow SSL connections.
 
@@ -60,23 +61,24 @@ supplied systemd script: host/systemd/vdjserver-repository.service.
 It can be accessed as follows:
 
 ```
-[myuser@vdj vdjserver-web]$ sudo systemctl <ACTION> vdjserver-repository
+[myuser@vdj vdjserver-repository]$ sudo systemctl <ACTION> vdjserver-repository
 # <ACTION> can be either: stop, start, or restart
 ```
 
 In most cases, a simple restart command is sufficient to bring up
-VDJServer-Repository. The restart command will attempt to stop all
+VDJServer Repository. The restart command will attempt to stop all
 running docker-compose instances, and it is generally
 successful. However, if it encounters any problems then you can just
 stop instances manually and try it again:
 
 ```
-[myuser@vdj vdjserver-web]$ sudo docker ps
-CONTAINER ID        IMAGE                          COMMAND                  CREATED             STATUS              PORTS                    NAMES
-2cd9a811064d        ireceptor/repository-mongo     "docker-entrypoint..."   4 weeks ago         Up 4 weeks          27017/tcp                vdjr-mongo
-7e4163c4418c        ireceptor/service-js-mongodb   "node --harmony /s..."   4 weeks ago         Up 4 weeks          0.0.0.0:8080->8080/tcp   vdjr-ireceptor-api
+[myuser@vdj vdjserver-repository]$ docker ps
+[s166813@OSPH-516048 (vdjserver) vdjserver-repository-irplus]$ docker ps
+CONTAINER ID   IMAGE                                       COMMAND                  CREATED          STATUS          PORTS                              NAMES
+2052d0d14367   vdjserver/api-js-tapis                      "bash /api-js-tapis/…"   15 minutes ago   Up 15 minutes   0.0.0.0:8020-8021->8020-8021/tcp   vdjr-airr-tapis
+741d013098a3   vdjserver/stats-api-js-tapis                "bash /stats-api-js-…"   15 minutes ago   Up 15 minutes   0.0.0.0:8025->8025/tcp             vdjr-stats-tapis
 
-[myuser@vdj vdjserver-web]$ sudo docker-compose down vdjserver-repository
+[myuser@vdj vdjserver-repository]$ sudo docker-compose down vdjserver-repository
 ```
 
 It is also important to note that the systemd vdjserver-repository
@@ -85,7 +87,8 @@ build/rebuild a new set of containers, then you will need to start the
 command manually as follows:
 
 ```
-[myuser@vdj vdjserver-web]$ sudo docker-compose build
+[myuser@vdj vdjserver-repository]$ cd docker-compose/airr
+[myuser@vdj airr]$ docker compose build
 ```
 
 After your build has completed, you can then use systemd to deploy it:
@@ -257,3 +260,33 @@ $ git submodule foreach git pull
 
 - Follow configuration steps listed above in the "Configuration Procedure" section of this document
 ```
+
+```
+[myuser@vdj vdjserver-repository]$ docker-compose build
+```
+
+###Dockerized instances (local)
+
+When deploying locally during development, similar commands are performed except manually instead of by systemctl.
+
+To build/rebuild a new set of containers, run docker compose:
+
+```
+[myuser@vdj vdjserver-repository]$ cd docker-compose/airr
+[myuser@vdj airr]$ docker compose build
+```
+
+To bring up the service:
+
+```
+[myuser@vdj vdjserver-repository]$ cd docker-compose/airr
+[myuser@vdj airr]$ docker compose up
+```
+
+To bring down the service:
+
+```
+[myuser@vdj vdjserver-repository]$ cd docker-compose/airr
+[myuser@vdj airr]$ docker compose up
+```
+
