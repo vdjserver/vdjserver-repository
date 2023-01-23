@@ -49,15 +49,16 @@ sudo systemctl enable docker
 sudo systemctl enable vdjserver-repository
 ```
 
-##Deployment Procedure
+Deployment Procedure
+-----------
 
-###SSL
+**SSL**
 
 VDJServer Repository does not handle SSL certificates directly, and is
 currently configured to run HTTP internally on port 8080. It must be
 deployed behind a reverse proxy in order to allow SSL connections.
 
-###Dockerized instances (vdj-dev, vdj-staging, production)
+**Dockerized instances (vdj-dev, vdj-staging, production)**
 
 Dockerized instances may be started/stopped/restarted using the
 supplied systemd script: host/systemd/vdjserver-repository.service.
@@ -117,7 +118,8 @@ docker-compose -f docker-compose.yml -f docker-compose.prod-override.yml build
 docker-compose -f docker-compose.yml -f docker-compose.prod-override.yml up
 ```
 
-##Accessing the Repository
+Accessing the Repository
+-----------
 
 For general users, the API is likely accessed with a GUI that hides
 the technical details of communicating with the REST API. However, it
@@ -226,7 +228,8 @@ $ curl 'http://localhost:8025/irplus/v1/stats'
 ```
 
 
-##Development Guidelines
+Development Guidelines
+-----------
 
 **Code Style**
 
@@ -246,7 +249,7 @@ $ curl 'http://localhost:8025/irplus/v1/stats'
 
  * New development and features should be done on branches that are cloned from the **develop** branch, and then merged into this branch when completed. Likewise, new release candidates should be branched from **develop**, and then merged into **master** once they have been tested/verified. Once a release branch is ready for production, it should be merged into **master** and tagged appropriately. Every deployment onto production should be tagged following semantic versioning 2.0.0 standards: <http://semver.org/>.
 
-##Development Setup
+**Development Setup**
 
 You will need to clone down the parent project and all submodules in order to set up a local instance of vdjserver.
 
@@ -268,7 +271,7 @@ $ git submodule foreach git pull
 [myuser@vdj vdjserver-repository]$ docker-compose build
 ```
 
-###Dockerized instances (local)
+**Dockerized instances (local)**
 
 When deploying locally during development, similar commands are performed except manually instead of by systemctl.
 
