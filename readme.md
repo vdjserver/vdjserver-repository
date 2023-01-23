@@ -58,7 +58,7 @@ VDJServer Repository does not handle SSL certificates directly, and is
 currently configured to run HTTP internally on the port specified in the .env file. It must be
 deployed behind a reverse proxy in order to allow SSL connections.
 
-**Dockerized instances (vdj-dev, vdj-staging, production)**
+**Dockerized instances (staging, production)**
 
 Dockerized instances may be started/stopped/restarted using the
 supplied systemd script: host/systemd/vdjserver-repository.service.
@@ -118,11 +118,16 @@ docker-compose -f docker-compose.yml -f docker-compose.prod-override.yml build
 docker-compose -f docker-compose.yml -f docker-compose.prod-override.yml up
 ```
 
+**Running the test suites (staging, production)**
+
+The test suites for each component can be run as during development, just change the
+URL host to the appropriate server.
+
 Accessing the Repository
 -----------
 
 For general users, the API is likely accessed with a GUI that hides
-the technical details of communicating with the REST API. However, it
+the technical details of communicating with the web API. However, it
 is useful to contact manually the API using the `curl` command to
 verify that the service is operational.
 
@@ -296,3 +301,6 @@ To bring down the service:
 [myuser@vdj airr]$ docker compose down
 ```
 
+**Running the test suites (local)**
+
+Look in each component test directory for a test suite and readme.
