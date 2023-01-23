@@ -26,7 +26,7 @@ repository. It can be copied from its default template.
 
 ```
 cp .env.defaults .env
-emacs .env
+pico .env
 ```
 
 **Configuring systemd**
@@ -36,7 +36,7 @@ on your host machine in order to have the infrastructure automatically
 restart when the host machine reboots. Copy the appropriate template.
 
 ```
-sudo cp host/systemd/vdjserver-repository.iplus.service /etc/systemd/system/vdjserver-repository.service
+sudo cp host/systemd/vdjserver-repository.airr.service /etc/systemd/system/vdjserver-repository.service
 
 sudo systemctl daemon-reload
 
@@ -118,27 +118,107 @@ the technical details of communicating with the REST API. However, it
 is useful to contact manually the API using the `curl` command to
 verify that the service is operational.
 
-** iReceptor API **
+** ADC API **
 
-The top level entrypoint for the API will return a simple success status heartbeat.
+The top level entrypoint for the ADC API will return a simple success status heartbeat.
 
 ```
-$ curl 'https://vdj-staging.tacc.utexas.edu/ireceptor/v2'
+$ curl 'http://localhost:8020/airr/v1'
 {"result":"success"}
 ```
 
 The info entrypoint will return version and other info about the service.
 
 ```
-$ curl 'https://vdj-staging.tacc.utexas.edu/ireceptor/v2/info'
-{"name":"vdjserver-ireceptor-node","description":"VDJServer API for iReceptor","version":"0.1.0"}
+$ curl 'http://localhost:8020/airr/v1/info'
+{
+  "title": "api-js-tapis",
+  "description": "AIRR Data Commons API for VDJServer Community Data Portal",
+  "version": "2.0.0",
+  "contact": {
+    "name": "VDJServer",
+    "url": "http://vdjserver.org/",
+    "email": "vdjserver@utsouthwestern.edu"
+  },
+  "license": {
+    "name": "GNU AGPL V3"
+  },
+  "api": {
+    "title": "AIRR Data Commons API",
+    "version": "1.2.0",
+    "contact": {
+      "name": "AIRR Community",
+      "url": "http://www.airr-community.org/",
+      "email": "join@airr-community.org"
+    },
+    "description": "Major Version 1 of the Adaptive Immune Receptor Repertoire (AIRR) data repository web service application programming interface (API).\n",
+    "license": {
+      "name": "Creative Commons Attribution 4.0 International",
+      "url": "https://creativecommons.org/licenses/by/4.0/"
+    }
+  },
+  "schema": {
+    "title": "AIRR Schema",
+    "description": "Schema definitions for AIRR standards objects",
+    "version": "1.4",
+    "contact": {
+      "name": "AIRR Community",
+      "url": "https://github.com/airr-community"
+    },
+    "license": {
+      "name": "Creative Commons Attribution 4.0 International",
+      "url": "https://creativecommons.org/licenses/by/4.0/"
+    }
+  },
+  "max_size": 1000,
+  "max_query_size": 2097152
+}
 ```
 
-Neither of those entrypoints access the database, and this command will query both the study metadata and sequences data, returning a JSON data for both.
+** ADC API Asynchronous Extension **
+
+The top level entrypoint for the ADC ASYNC API will return a simple success status heartbeat.
 
 ```
-curl -X POST --data-urlencode "ir_project_sample_id=8485700680582295065-242ac11c-0001-012" 'https://vdj-staging.tacc.utexas.edu/ireceptor/v2/sequences_summary'
+$ curl 'http://localhost:8021/airr/async/v1'
+{"result":"success"}
 ```
+
+** iReceptorPlus Stats API **
+
+The top level entrypoint for the STATS API will return a simple success status heartbeat.
+
+```
+$ curl 'http://localhost:8025/irplus/v1/stats'
+{"result":"success"}
+```
+
+The info entrypoint will return version and other info about the service.
+
+```
+$ curl 'http://localhost:8025/irplus/v1/stats'
+{
+  "title": "stats-api-js-tapis",
+  "description": "VDJServer Statistics API for Tapis backend",
+  "version": "0.1.0",
+  "contact": {
+    "name": "VDJServer",
+    "email": "vdjserver@utsouthwestern.edu",
+    "url": "https://vdjserver.org"
+  },
+  "api": {
+    "title": "iReceptorPlus Statistics API",
+    "version": "0.3.0",
+    "description": "Statistics API for the iReceptor Plus platform.\n",
+    "contact": {
+      "name": "iReceptor Plus",
+      "url": "https://www.ireceptor-plus.com",
+      "email": "info@ireceptor-plus.com"
+    }
+  }
+}
+```
+
 
 ##Development Guidelines
 
