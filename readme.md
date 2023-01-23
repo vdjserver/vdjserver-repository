@@ -5,7 +5,7 @@ VDJServer is a next generation immune repertoire analysis portal and
 platform. VDJServer Repository is designed to be an AIRR-compliant
 data repository. It is the backend services for the VDJServer Community Data Portal.
 
-##Deployments
+*Deployments*
 
  * Production: https://vdjserver.org -> vdj-rep-01.tacc.utexas.edu
  * Staging: https://vdj-staging.tacc.utexas.edu -> vdj-rep-02.tacc.utexas.edu
