@@ -12,14 +12,16 @@ Deployments
  * Staging: https://vdj-staging.tacc.utexas.edu -> vdj-rep-02.tacc.utexas.edu
  * Development: http://localhost
 
-##Components
+Components
+-----------
 
 VDJServer-Repository is currently composed of 2 separate components:
 
  * [api-js-tapis](https://bitbucket.org/vdjserver/api-js-tapis.git): VDJServer implementation of the AIRR Data Commons API with JavaScript implementation for Tapis v3 metadata.
  * [stats-api-js-tapis](https://bitbucket.org/vdjserver/stats-api-js-tapis.git): VDJServer implementation of the iReceptorPlus Stats API with JavaScript implementation for Tapis API.
 
-##Configuration Procedure
+Configuration Procedure
+-----------
 
 All configuration procedures are the same for dockerized and non-dockerized versions of these apps.
 
