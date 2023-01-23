@@ -1,27 +1,23 @@
-VDJServer Repository
-====================
+# VDJServer Repository
 
 VDJServer is a next generation immune repertoire analysis portal and
 platform. VDJServer Repository is an AIRR-compliant data repository with additional
 administrative interfaces. It provides ADC services for the VDJServer Community Data Portal.
 
-Deployments
------------
+## Deployments
 
  * Production: https://vdjserver.org -> vdj-rep-01.tacc.utexas.edu
  * Staging: https://vdj-staging.tacc.utexas.edu -> vdj-rep-02.tacc.utexas.edu
  * Development: http://localhost
 
-Components
------------
+## Components
 
 VDJServer Repository is currently composed of 2 separate components:
 
  * [api-js-tapis](https://bitbucket.org/vdjserver/api-js-tapis.git): VDJServer implementation of the AIRR Data Commons API with JavaScript implementation for Tapis v3 metadata.
  * [stats-api-js-tapis](https://bitbucket.org/vdjserver/stats-api-js-tapis.git): VDJServer implementation of the iReceptorPlus Stats API with JavaScript implementation for Tapis API.
 
-Configuration Procedure
------------
+## Configuration Procedure
 
 All configuration procedures are the same for dockerized and non-dockerized versions of these apps.
 
@@ -33,10 +29,9 @@ cp .env.defaults .env
 pico .env
 ```
 
-Deployment Procedure
------------
+## Deployment Procedure
 
-**Configuring systemd**
+### Configuring systemd
 
 You will need to set up the VDJServer Repository systemd service file
 on your host machine in order to have the infrastructure automatically
