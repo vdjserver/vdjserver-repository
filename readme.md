@@ -15,7 +15,7 @@ Deployments
 Components
 -----------
 
-VDJServer-Repository is currently composed of 2 separate components:
+VDJServer Repository is currently composed of 2 separate components:
 
  * [api-js-tapis](https://bitbucket.org/vdjserver/api-js-tapis.git): VDJServer implementation of the AIRR Data Commons API with JavaScript implementation for Tapis v3 metadata.
  * [stats-api-js-tapis](https://bitbucket.org/vdjserver/stats-api-js-tapis.git): VDJServer implementation of the iReceptorPlus Stats API with JavaScript implementation for Tapis API.
@@ -126,7 +126,7 @@ the technical details of communicating with the REST API. However, it
 is useful to contact manually the API using the `curl` command to
 verify that the service is operational.
 
-** ADC API **
+**ADC API**
 
 The top level entrypoint for the ADC API will return a simple success status heartbeat.
 
@@ -183,7 +183,7 @@ $ curl 'http://localhost:8020/airr/v1/info'
 }
 ```
 
-** ADC API Asynchronous Extension **
+**ADC API Asynchronous Extension**
 
 The top level entrypoint for the ADC ASYNC API will return a simple success status heartbeat.
 
@@ -192,7 +192,7 @@ $ curl 'http://localhost:8021/airr/async/v1'
 {"result":"success"}
 ```
 
-** iReceptorPlus Stats API **
+**iReceptorPlus Stats API**
 
 The top level entrypoint for the STATS API will return a simple success status heartbeat.
 
