@@ -17,15 +17,17 @@ services:
             - ./../../api-js-tapis/redis:/api-js-tapis/redis
             - /vdjZ:/vdjZ
 
-#    vdjr-stats-tapis:
-#        build: ./../../stats-api-js-tapis
-#        container_name: vdjr-stats-tapis
-#        env_file: ./../../.env
-#        ports:
-#            - "8025:8025"
-#        image: vdjserver/stats-api-js-tapis
-#        networks:
-#            - default
+    vdjr-stats-tapis:
+        build: ./../../stats-api-js-tapis
+        container_name: vdjr-stats-tapis
+        env_file: ./../../.env
+        ports:
+            - "8025:8025"
+        image: vdjserver/stats-api-js-tapis
+        networks:
+            - default
+        volumes:
+            - ./../../stats-api-js-tapis/redis:/stats-api-js-tapis/redis
 
 networks:
     default:
