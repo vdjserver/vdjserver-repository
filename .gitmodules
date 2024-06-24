@@ -1,6 +1,0 @@
-[submodule "api-js-tapis"]
-	path = api-js-tapis
-	url = https://bitbucket.org/vdjserver/api-js-tapis.git
-[submodule "stats-api-js-tapis"]
-	path = stats-api-js-tapis
-	url = https://bitbucket.org/vdjserver/stats-api-js-tapis.git
