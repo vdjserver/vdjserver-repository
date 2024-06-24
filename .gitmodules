@@ -1,0 +1,6 @@
+[submodule "adc-api-js-tapis"]
+	path = adc-api-js-tapis
+	url = https://github.com/vdjserver/adc-api-js-tapis.git
+[submodule "stats-api-js-tapis"]
+	path = stats-api-js-tapis
+	url = https://github.com/vdjserver/stats-api-js-tapis.git
