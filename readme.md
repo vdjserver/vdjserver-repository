@@ -14,12 +14,24 @@ administrative interfaces. It provides ADC services for the VDJServer Community 
 
 VDJServer Repository is currently composed of 2 separate components:
 
- * [api-js-tapis](https://bitbucket.org/vdjserver/api-js-tapis.git): VDJServer implementation of the AIRR Data Commons API with JavaScript implementation for Tapis v3 metadata.
- * [stats-api-js-tapis](https://bitbucket.org/vdjserver/stats-api-js-tapis.git): VDJServer implementation of the iReceptorPlus Stats API with JavaScript implementation for Tapis API.
+ * [adc-api-js-tapis](https://github.com/vdjserver/adc-api-js-tapis): VDJServer implementation of the AIRR Data Commons API with JavaScript implementation for Tapis v3 metadata.
+ * [stats-api-js-tapis](https://github.com/vdjserver/stats-api-js-tapis): VDJServer implementation of the iReceptorPlus Stats API with JavaScript implementation for Tapis API.
 
 ## Configuration Procedure
 
-All configuration procedures are the same for dockerized and non-dockerized versions of these apps.
+You will need to clone the parent project and all submodules in order to set up an instance of VDJServer Repository.
+
+```
+# Clone project
+$ git clone https://github.com/vdjserver/vdjserver-repository.git
+
+$ cd vdjserver-repository
+
+# Clone submodules
+$ git submodule update --init --recursive
+```
+
+All configuration procedures are based upon docker containers of the components.
 
 There is one configuration file that needs to be set up to run the
 repository. It can be copied from its default template.
@@ -31,11 +43,37 @@ pico .env
 
 ## Deployment Procedure
 
-**Configuring systemd**
+### SSL
 
-You will need to set up the VDJServer Repository systemd service file
-on your host machine in order to have the infrastructure automatically
-restart when the host machine reboots. Copy the appropriate template.
+VDJServer does not handle SSL certificates directly, and is currently configured to run HTTP internally on port 8080. It must be deployed behind a reverse proxy in order to allow SSL connections.
+
+Review the [VDJServer administration guide](https://vdjserver.readthedocs.io/en/latest/admin/admin.html) for details about configuring nginx with SSL.
+
+### Docker compose build
+
+There are a set of docker compose files for building and starting all of the components.
+
+```
+$ cd docker-compose/airr
+$ docker compose build
+```
+
+If everything has build properly, then can manually bring up the system with:
+
+```
+$ docker compose up
+```
+
+Verify no unexpected error messages. Verify you can access the website GUI. Manually bring down the system with:
+
+```
+$ docker compose down
+```
+
+### Configuring systemd
+
+You will need to set up the VDJServer systemd service file on your host machine in order to have the VDJ web infrastructure automatically restart when the host machine reboots.
+Verify the paths point to the appropriate docker-compose directory.
 
 ```
 sudo cp host/systemd/vdjserver-repository.airr.service /etc/systemd/system/vdjserver-repository.service
@@ -45,75 +83,11 @@ sudo systemctl daemon-reload
 sudo systemctl enable docker
 
 sudo systemctl enable vdjserver-repository
+
+sudo systemctl start vdjserver-repository
 ```
 
-**SSL**
-
-VDJServer Repository does not handle SSL certificates directly, and is
-currently configured to run HTTP internally on the port specified in the .env file. It must be
-deployed behind a reverse proxy in order to allow SSL connections.
-
-**Dockerized instances (staging, production)**
-
-Dockerized instances may be started/stopped/restarted using the
-supplied systemd script: host/systemd/vdjserver-repository.service.
-It can be accessed as follows:
-
-```
-[myuser@vdj vdjserver-repository]$ sudo systemctl <ACTION> vdjserver-repository
-# <ACTION> can be either: stop, start, or restart
-```
-
-In most cases, a simple restart command is sufficient to bring up
-VDJServer Repository. The restart command will attempt to stop all
-running docker-compose instances, and it is generally
-successful. However, if it encounters any problems then you can just
-stop instances manually and try it again:
-
-```
-[myuser@vdj vdjserver-repository]$ docker ps
-[s166813@OSPH-516048 (vdjserver) vdjserver-repository-irplus]$ docker ps
-CONTAINER ID   IMAGE                                       COMMAND                  CREATED          STATUS          PORTS                              NAMES
-2052d0d14367   vdjserver/api-js-tapis                      "bash /api-js-tapis/…"   15 minutes ago   Up 15 minutes   0.0.0.0:8020-8021->8020-8021/tcp   vdjr-airr-tapis
-741d013098a3   vdjserver/stats-api-js-tapis                "bash /stats-api-js-…"   15 minutes ago   Up 15 minutes   0.0.0.0:8025->8025/tcp             vdjr-stats-tapis
-
-[myuser@vdj vdjserver-repository]$ sudo docker-compose down vdjserver-repository
-```
-
-It is also important to note that the systemd vdjserver-repository
-command will not rebuild new container instances. If you need to
-build/rebuild a new set of containers, then you will need to start the
-command manually as follows:
-
-```
-[myuser@vdj vdjserver-repository]$ cd docker-compose/airr
-[myuser@vdj airr]$ docker compose build
-```
-
-After your build has completed, you can then use systemd to deploy it:
-
-```
-[myuser@vdj vdjserver-web]$ sudo systemctl restart vdjserver-repository
-```
-
-Systemd will only restart a running service if the "restart" command is used; remember that using the "start" command twice will not redeploy any containers.
-
-
-**Docker Compose Files**
-
-There are two docker-compose files: one for general use ("docker-compose.yml"), and one that has been adjusted for use in a production environment ("docker-compose.prod-override.yml"). These files are meant to be overlayed and used together in a production environment: https://docs.docker.com/compose/extends/#different-environments
-
-Using the production config will send all log information to syslog.
-
-Example of using the production overlayed config:
-
-```
-docker-compose -f docker-compose.yml -f docker-compose.prod-override.yml build
-
-docker-compose -f docker-compose.yml -f docker-compose.prod-override.yml up
-```
-
-**Running the test suites (staging, production)**
+### Running the test suites (staging, production)**
 
 The test suites for each component can be run as during development, just change the
 URL host to the appropriate server.
@@ -125,7 +99,7 @@ the technical details of communicating with the web API. However, it
 is useful to contact manually the API using the `curl` command to
 verify that the service is operational.
 
-**ADC API**
+### ADC API
 
 The top level entrypoint for the ADC API will return a simple success status heartbeat.
 
@@ -182,7 +156,7 @@ $ curl 'http://localhost:8020/airr/v1/info'
 }
 ```
 
-**ADC API Asynchronous Extension**
+### ADC API Asynchronous Extension
 
 The top level entrypoint for the ADC ASYNC API will return a simple success status heartbeat.
 
@@ -191,7 +165,7 @@ $ curl 'http://localhost:8021/airr/async/v1'
 {"result":"success"}
 ```
 
-**iReceptorPlus Stats API**
+### iReceptorPlus Stats API
 
 The top level entrypoint for the STATS API will return a simple success status heartbeat.
 
@@ -203,7 +177,7 @@ $ curl 'http://localhost:8025/irplus/v1/stats'
 The info entrypoint will return version and other info about the service.
 
 ```
-$ curl 'http://localhost:8025/irplus/v1/stats'
+$ curl 'http://localhost:8025/irplus/v1/stats/info'
 {
   "title": "stats-api-js-tapis",
   "description": "VDJServer Statistics API for Tapis backend",

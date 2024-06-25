@@ -1,20 +1,18 @@
 # VDJServer Docker Orchestration
 
-version: '2'
-
 services:
     vdjr-airr-tapis:
-        build: ./../../api-js-tapis
+        build: ./../../adc-api-js-tapis
         container_name: vdjr-airr-tapis
         env_file: ./../../.env
         ports:
             - "8020:8020"
             - "8021:8021"
-        image: vdjserver/api-js-tapis
+        image: vdjserver/adc-api-js-tapis
         networks:
             - default
         volumes:
-            - ./../../api-js-tapis/redis:/api-js-tapis/redis
+            - ./../../adc-api-js-tapis/redis:/api-js-tapis/redis
             - /vdjZ:/vdjZ
 
     vdjr-stats-tapis:
