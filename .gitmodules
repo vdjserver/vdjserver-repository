@@ -4,3 +4,6 @@
 [submodule "stats-api-js-tapis"]
 	path = stats-api-js-tapis
 	url = https://github.com/vdjserver/stats-api-js-tapis.git
+[submodule "adc-async-api-js-tapis"]
+	path = adc-async-api-js-tapis
+	url = https://github.com/vdjserver/adc-async-api-js-tapis.git
