@@ -70,6 +70,11 @@ services:
                 condition: service_healthy
         networks:
             - v3_db
+        volumes:
+# local
+#            - ../../../data/vdjZ:/vdjZ
+# system
+            - /vdjZ:/vdjZ
 
     vdjr-stats-tapis:
         build: ./../../stats-api-js-tapis
