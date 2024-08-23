@@ -25,22 +25,25 @@ services:
                 condition: service_started
         networks:
             - default
-#        volumes:
+        volumes:
 #            - ./../../adc-api-js-tapis/redis:/api-js-tapis/redis
-#            - /vdjZ:/vdjZ
+            - /vdjZ:/vdjZ
 
     vdjr-async-tapis:
         build: ./../../adc-async-api-js-tapis
         container_name: vdjr-async-tapis
         env_file: ./../../.env
         ports:
-            - "8022:8022"
+            - "8021:8021"
         image: vdjserver/adc-async-api-js-tapis:v2-tapis-v3
         depends_on:
             vdjr-redis:
                 condition: service_started
         networks:
             - default
+        volumes:
+#            - ./../../adc-api-js-tapis/redis:/api-js-tapis/redis
+            - /vdjZ:/vdjZ
 
     vdjr-stats-tapis:
         build: ./../../stats-api-js-tapis
