@@ -1,0 +1,65 @@
+# VDJServer Docker Orchestration
+
+services:
+    vdjr-redis:
+        container_name: vdjr-redis
+        image: redis:7.2.0-alpine
+        restart: always
+        networks:
+            - default
+        ports:
+            - "6379:6379"
+        command: redis-server --save 60 1 --loglevel warning --appendonly yes
+        volumes:
+            - ./../../redis:/data
+
+    vdjr-airr-tapis:
+        build: ./../../adc-api-js-tapis
+        container_name: vdjr-airr-tapis
+        env_file: ./../../.env
+        ports:
+            - "8020:8020"
+        image: vdjserver/adc-api-js-tapis:v2-tapis-v3
+        depends_on:
+            vdjr-redis:
+                condition: service_started
+        networks:
+            - default
+        volumes:
+#            - ./../../adc-api-js-tapis/redis:/api-js-tapis/redis
+            - ${DATA_ROOT}:/vdjZ
+
+    vdjr-async-tapis:
+        build: ./../../adc-async-api-js-tapis
+        container_name: vdjr-async-tapis
+        env_file: ./../../.env
+        ports:
+            - "8022:8022"
+        image: vdjserver/adc-async-api-js-tapis:v2-tapis-v3
+        depends_on:
+            vdjr-redis:
+                condition: service_started
+        networks:
+            - default
+        volumes:
+#            - ./../../adc-api-js-tapis/redis:/api-js-tapis/redis
+            - ${DATA_ROOT}:/vdjZ
+
+    vdjr-stats-tapis:
+        build: ./../../stats-api-js-tapis
+        container_name: vdjr-stats-tapis
+        env_file: ./../../.env
+        ports:
+            - "8025:8025"
+        image: vdjserver/stats-api-js-tapis:v2-tapis-v3
+        depends_on:
+            vdjr-redis:
+                condition: service_started
+        networks:
+            - default
+#        volumes:
+#            - ./../../stats-api-js-tapis/redis:/stats-api-js-tapis/redis
+
+networks:
+    default:
+        driver: bridge

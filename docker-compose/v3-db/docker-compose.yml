@@ -1,0 +1,99 @@
+# VDJServer Docker Orchestration
+
+services:
+    vdjr-mongo:
+        container_name: vdjr-mongo
+        image: mongo:4
+        volumes:
+#            - /vdjZ/repository/ireceptor/rep02/mongodb:/data/db
+            - ../../../data/repository/mongodb:/data/db
+        networks:
+            - v3_db
+        command: mongod --noauth
+        healthcheck:
+          test:
+            [
+              "CMD",
+              "mongo",
+              "--quiet",
+              "127.0.0.1/test",
+              "--eval",
+              "'quit(db.runCommand({ ping: 1 }).ok ? 0 : 2)'",
+            ]
+          interval: 360s
+          timeout: 10s
+          retries: 5
+          start_period: 60s
+          start_interval: 10s
+
+    vdjr-redis:
+        container_name: vdjr-redis
+        image: redis:7.2.0-alpine
+        restart: always
+        networks:
+            - v3_db
+        ports:
+            - "6379:6379"
+        command: redis-server --save 60 1 --loglevel warning --appendonly yes
+        volumes:
+            - ./../../redis:/data
+
+    vdjr-airr-tapis:
+        build: ./../../adc-api-js-tapis
+        container_name: vdjr-airr-tapis
+        env_file: ./../../.env
+        ports:
+            - "8020:8020"
+        image: vdjserver/adc-api-js-tapis:v2-tapis-v3
+        depends_on:
+            vdjr-redis:
+                condition: service_started
+            vdjr-mongo:
+                condition: service_healthy
+        networks:
+            - v3_db
+        volumes:
+            - ../../../data/vdjZ:/vdjZ
+#            - /vdjZ:/vdjZ
+
+    vdjr-async-tapis:
+        build: ./../../adc-async-api-js-tapis
+        container_name: vdjr-async-tapis
+        env_file: ./../../.env
+        ports:
+            - "8022:8022"
+        image: vdjserver/adc-async-api-js-tapis:v2-tapis-v3
+        depends_on:
+            vdjr-redis:
+                condition: service_started
+            vdjr-mongo:
+                condition: service_healthy
+        networks:
+            - v3_db
+        volumes:
+# local
+#            - ../../../data/vdjZ:/vdjZ
+# system
+            - /vdjZ:/vdjZ
+
+    vdjr-stats-tapis:
+        build: ./../../stats-api-js-tapis
+        container_name: vdjr-stats-tapis
+        env_file: ./../../.env
+        ports:
+            - "8025:8025"
+        image: vdjserver/stats-api-js-tapis:v2-tapis-v3
+        depends_on:
+            vdjr-redis:
+                condition: service_started
+            vdjr-mongo:
+                condition: service_healthy
+        networks:
+            - v3_db
+#        volumes:
+#            - ./../../stats-api-js-tapis/redis:/stats-api-js-tapis/redis
+
+networks:
+    v3_db:
+        name: v3-db
+        driver: bridge
