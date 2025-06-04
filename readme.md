@@ -6,16 +6,17 @@ administrative interfaces. It provides ADC services for the VDJServer Community 
 
 ## Deployments
 
- * Production: https://vdjserver.org -> vdj-rep-01.tacc.utexas.edu
- * Staging: https://vdj-staging.tacc.utexas.edu -> vdj-rep-02.tacc.utexas.edu
+ * Production: https://vdjserver.org
+ * Staging: https://vdj-staging.tacc.utexas.edu
  * Development: http://localhost
 
 ## Components
 
-VDJServer Repository is currently composed of 2 separate components:
+VDJServer Repository is currently composed of 3 separate components:
 
  * [adc-api-js-tapis](https://github.com/vdjserver/adc-api-js-tapis): VDJServer implementation of the AIRR Data Commons API with JavaScript implementation for Tapis v3 metadata.
- * [stats-api-js-tapis](https://github.com/vdjserver/stats-api-js-tapis): VDJServer implementation of the iReceptorPlus Stats API with JavaScript implementation for Tapis API.
+ * [adc-async-api-js-tapis](https://github.com/vdjserver/adc-async-api-js-tapis): VDJServer implementation of the AIRR Data Commons ASYNC API with JavaScript implementation for Tapis v3 metadata.
+ * [stats-api-js-tapis](https://github.com/vdjserver/stats-api-js-tapis): VDJServer implementation of the iReceptorPlus Stats API with JavaScript implementation for Tapis v3 metadata.
 
 ## Configuration Procedure
 
