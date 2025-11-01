@@ -5,8 +5,10 @@ services:
         container_name: vdjr-mongo
         image: mongo:4
         volumes:
+            - ${DATA_ROOT}/database/collection_0/mongodata:/data/db
+            - ${DATA_ROOT}/database/backup:/backup
 #            - /vdjZ/repository/ireceptor/rep02/mongodb:/data/db
-            - ../../../data/repository/mongodb:/data/db
+#            - ../../../data/repository/mongodb:/data/db
         networks:
             - v3_db
         command: mongod --noauth
@@ -44,7 +46,7 @@ services:
         env_file: ./../../.env
         ports:
             - "8020:8020"
-        image: vdjserver/adc-api-js-tapis:v2-tapis-v3
+        image: vdjserver/adc-api-js-tapis:v3-db
         depends_on:
             vdjr-redis:
                 condition: service_started
@@ -53,8 +55,7 @@ services:
         networks:
             - v3_db
         volumes:
-            - ../../../data/vdjZ:/vdjZ
-#            - /vdjZ:/vdjZ
+            - ${DATA_ROOT}:/vdjZ
 
     vdjr-async-tapis:
         build: ./../../adc-async-api-js-tapis
@@ -62,7 +63,7 @@ services:
         env_file: ./../../.env
         ports:
             - "8022:8022"
-        image: vdjserver/adc-async-api-js-tapis:v2-tapis-v3
+        image: vdjserver/adc-async-api-js-tapis:v3-db
         depends_on:
             vdjr-redis:
                 condition: service_started
@@ -71,10 +72,8 @@ services:
         networks:
             - v3_db
         volumes:
-# local
-#            - ../../../data/vdjZ:/vdjZ
-# system
-            - /vdjZ:/vdjZ
+            - ${DATA_ROOT}:/vdjZ
+
 
     vdjr-stats-tapis:
         build: ./../../stats-api-js-tapis
@@ -82,7 +81,7 @@ services:
         env_file: ./../../.env
         ports:
             - "8025:8025"
-        image: vdjserver/stats-api-js-tapis:v2-tapis-v3
+        image: vdjserver/stats-api-js-tapis:v3-db
         depends_on:
             vdjr-redis:
                 condition: service_started
@@ -90,8 +89,6 @@ services:
                 condition: service_healthy
         networks:
             - v3_db
-#        volumes:
-#            - ./../../stats-api-js-tapis/redis:/stats-api-js-tapis/redis
 
 networks:
     v3_db:
