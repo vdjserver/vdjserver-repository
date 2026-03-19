@@ -6,9 +6,9 @@ Requires=docker.service
 
 [Service]
 Restart=always
-ExecStartPre=/usr/local/bin/docker-compose -f /var/www/docker/vdjserver/vdjserver-repository/docker-compose/airr/docker-compose.yml -f /var/www/docker/vdjserver/vdjserver-repository/docker-compose/airr/docker-compose.prod-override.yml down
-ExecStart=/usr/local/bin/docker-compose -f /var/www/docker/vdjserver/vdjserver-repository/docker-compose/airr/docker-compose.yml -f /var/www/docker/vdjserver/vdjserver-repository/docker-compose/airr/docker-compose.prod-override.yml up
-ExecStop=/usr/local/bin/docker-compose -f /var/www/docker/vdjserver/vdjserver-repository/docker-compose/airr/docker-compose.yml -f /var/www/docker/vdjserver/vdjserver-repository/docker-compose/airr/docker-compose.prod-override.yml down
+ExecStartPre=/usr/local/bin/docker-compose -f /var/www/docker/vdjserver/vdjserver-repository/docker-compose/v2/docker-compose.yml -f /var/www/docker/vdjserver/vdjserver-repository/docker-compose/v2/docker-compose.prod-override.yml down
+ExecStart=/usr/local/bin/docker-compose -f /var/www/docker/vdjserver/vdjserver-repository/docker-compose/v2/docker-compose.yml -f /var/www/docker/vdjserver/vdjserver-repository/docker-compose/v2/docker-compose.prod-override.yml up
+ExecStop=/usr/local/bin/docker-compose -f /var/www/docker/vdjserver/vdjserver-repository/docker-compose/v2/docker-compose.yml -f /var/www/docker/vdjserver/vdjserver-repository/docker-compose/v2/docker-compose.prod-override.yml down
 
 [Install]
 WantedBy=multi-user.target
