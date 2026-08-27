@@ -1,0 +1,47 @@
+# VDJServer Docker Orchestration
+
+# VDJServer Repository database services
+
+services:
+    vdjr-db:
+        image: postgres:16
+        container_name: vdjr-db
+        restart: always
+        env_file: ./../../.env
+        shm_size: 10gb
+        command: -c max_wal_size=16GB -c min_wal_size=2GB
+        volumes:
+            - ${DATA_ROOT}/pgdata:/var/lib/postgresql/data
+        networks:
+            - vdjr-db-network
+        healthcheck:
+            test: pg_isready -h vdjr-db -d postgres -U postgres
+            interval: 10s
+            timeout: 3s
+            retries: 3
+
+    adminer:
+        image: adminer
+        restart: always
+        ports:
+            - 127.0.0.1:9090:8080
+        networks:
+            - vdjr-db-network
+        depends_on:
+            vdjr-db:
+                condition: service_healthy
+
+    vdjr-redis:
+        container_name: vdjr-redis
+        image: redis:7.2.0-alpine
+        restart: always
+        networks:
+            - vdjr-db-network
+        command: redis-server --save 60 1 --loglevel warning --appendonly yes
+        volumes:
+            - ./../../redis:/data
+
+networks:
+    vdjr-db-network:
+        name: vdjr-db-network
+        driver: bridge
